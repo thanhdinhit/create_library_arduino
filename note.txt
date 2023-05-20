@@ -1,0 +1,107 @@
+*** Create Your Own Arduino Library ***
+Step 1: Write your Arduino library code
+Separating the library code from the rest
+Let’s create 2 files: a Cpp and a header file.
+
+my_library.h
+#ifndef MY_LIBRARY_H
+#define MY_LIBRARY_H
+#include <Arduino.h>
+int addTwoInts(int a, int b);
+#endif
+
+my_library.cpp
+#include "my_library.h"
+int addTwoInts(int a, int b)
+{
+  return a + b;
+}
+
+your_main_code.ino
+#include "my_library.h"
+void setup() 
+{
+  Serial.begin(9600);
+  int result = addTwoInts(4,3);
+  Serial.println(result);
+}
+void loop() {}
+
+Step 2: Package your Arduino library
+
+In this libraries/ folder, create a new folder named my_library/. Move the my_library.h and my_library.cpp files into my_library/.
+
+Documents/
+└── Arduino/
+    └── libraries/
+        └── my_library/
+            ├── my_library.h
+            └── my_library.cpp
+Then, restart your Arduino IDE. Don’t forget this, as it doesn’t automatically detect changes in the file architecture.
+
+change this line #include "my_library.h" to this: #include <my_library.h>
+
+Add examples to your Arduino library
+
+For our custom library, let’s create an example to show how to use the addTwoInts() functions. In my_library/, create a folder add_two_ints/, and inside it a file named add_two_ints.ino.
+
+Documents/
+└── Arduino/
+    └── libraries/
+        └── my_library/
+            ├── examples/
+                ├── add_two_ints/
+                    ├── add_two_ints.ino
+            ├── my_library.h
+            └── my_library.cpp
+			
+Here’s the code example:
+
+/*
+ * 
+ * Explanation of what your example does
+ * 
+ */
+#include <my_library.h>
+void setup() 
+{
+  // Setup Serial communication to print result on Serial Monitor
+  Serial.begin(9600);
+  // Get the sum of two integers into another integer
+  int result = addTwoInts(4,3);
+  // Check result
+  Serial.println(result);
+}
+void loop() {}
+
+Step 3: Share your Arduino library
+* Export the library
+To export and share your library, create an archive of the my_library/ folder, located into Arduino/libraries/.
+
+* Manually import the library
+Once you get the library, just 3 steps are required before you can use it:
+
+Extract the archive.
+Place the library folder in Arduino/libraries/.
+Restart the Arduino IDE.
+
+Import the library through the Arduino IDE
+
+Simply open the Arduino IDE, click on “Sketch” > “Include Library” > “Add .ZIP Library…”, and browse to find your .zip archive.
+
+Example: functions, my_library
+Link refer: https://roboticsbackend.com/arduino-create-library/
+
+-------------------------------------------------
+Note: include from subfolder of sketch folder
+For example:
+
+Blink
+|_Blink.ino
+|_src
+   |_BlinkLib
+      |_BlinkLib.h
+#include "src/BlinkLib/BlinkLib.h"
+
+Example: 
+#include "src/my_library_test/my_library_test.h"
